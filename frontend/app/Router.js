@@ -2,9 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
-//import Tag from './data/Tag.vue'
+import ScrapeList from './scrapes/List.vue'
 const routes = [
-  { path: '/', component: SomeList },
+  { path: '/', component: ScrapeList },
 ]
 const router = new VueRouter({routes})
 

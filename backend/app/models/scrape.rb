@@ -22,9 +22,10 @@ class Scrape
 
   def self.all
     sql = "SELECT
-  #{Scrape.columns.map{|c|"s.`#{c}` as s_#{c}"}.join(",")},
+  #{Scrape.columns.map{|c|"s.`#{c}` as s_#{c}"}.join(",")}
 FROM scrapes s
 ORDER BY s.`name`"
+puts sql
     rows = DataMapper.select(sql, {
       prefix: 's',
       has_many: [

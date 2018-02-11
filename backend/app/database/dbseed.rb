@@ -8,6 +8,7 @@ class DBSeed
   @scrapes = [
     {
       id: '4a990719-1862-4fa2-b5f1-e26c8867faec',
+      name: "Hello World"
     },
   ]
   @tags = [
@@ -17,6 +18,7 @@ class DBSeed
     @scrapes.each do |scrape|
       values = {
         id: scrape[:id],
+        name: scrape[:name],
         created_at: DateTime.now
       }
       DataMapper.insert("scrapes", values)

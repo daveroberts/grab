@@ -5,6 +5,7 @@ const initial_state = {
     {id: 5, msg: 'warning', show: true, type: 'warning'},
     {id: 6, msg: 'danger', show: true, type: 'danger'},*/
   ],
+  scrapes: null
 }
 
 export default initial_state

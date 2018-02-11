@@ -16,7 +16,7 @@
     "webpack-dev-server": "^2.9.7"
   },
   "scripts": {
-    "start": "webpack-dev-server --open --hot --port 8090",
+    "start": "webpack-dev-server --open --hot --port 8091",
     "prebuild": "rm -rf ../backend/dist/",
     "build": "NODE_ENV=production webpack && cp -r static/* ../backend/dist/"
   },

@@ -4,6 +4,7 @@ Dir['./app/controllers/*.rb'].each { |file| require file }
 Dir['./app/lib/*.rb'].each { |file| require file }
 Dir['./app/models/*.rb'].each { |file| require file }
 Dir['./app/extensions/**/*.rb'].each { |file| require file }
+require './app/database/database.rb'
 
 class App < Sinatra::Application
   enable :sessions
