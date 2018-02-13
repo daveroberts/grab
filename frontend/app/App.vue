@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="nav-bar">
-      <router-link class="nav-item" to="/item1" exact><i class="fa fa-th-large" aria-hidden="true"></i> Item 1</router-link>
+      <router-link class="nav-item" to="/scrapes" exact><i class="fa fa-th-large" aria-hidden="true"></i> Scrapes</router-link>
     </div>
     <div v-if="loading" class="loader"></div>
     <div style="padding: 1em;">

@@ -10,6 +10,10 @@ class DBSeed
       id: '4a990719-1862-4fa2-b5f1-e26c8867faec',
       name: "Hello World"
     },
+    {
+      id: '44bee2b5-7c84-419b-b022-a6e8c155aa72',
+      name: "Testing 1,2,3"
+    },
   ]
   @tags = [
   ]

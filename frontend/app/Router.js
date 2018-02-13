@@ -3,8 +3,11 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import ScrapeList from './scrapes/List.vue'
+import Scrape from './scrapes/Scrape.vue'
 const routes = [
   { path: '/', component: ScrapeList },
+  { path: '/scrapes/', component: ScrapeList },
+  { path: '/scrapes/:id', component: Scrape },
 ]
 const router = new VueRouter({routes})
 

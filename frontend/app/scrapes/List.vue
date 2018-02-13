@@ -13,7 +13,9 @@
         </thead>
         <tbody>
           <tr v-for="scrape in scrapes">
-            <td>{{scrape.name}}</td>
+            <td>
+              <a :href="'/#/scrapes/'+scrape.id" @click="set_scrape(scrape)">{{scrape.name}}</a>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -25,7 +27,7 @@ import state from '../state/state.js'
 import * as senate from '../state'
 export default {
   computed: {
-    scrapes(){ return state.scrapes }
+    scrapes(){ return state.scrapes.data }
   },
   created: function(){
     fetch(`/api/scrapes/`, {
@@ -33,7 +35,8 @@ export default {
     }).then(res => {
       if (res.ok){ return res.json() }
     }).then(scrapes => {
-      state.scrapes = scrapes
+      state.scrapes.data = scrapes
+      state.scrapes.last_loaded = Date.now()
     }).catch(err => {
       console.log(err)
     })
@@ -45,6 +48,9 @@ export default {
     }
   },
   methods: {
+    set_scrape(scrape){
+      state.current.scrape = scrape
+    }
   }
 }
 </script>

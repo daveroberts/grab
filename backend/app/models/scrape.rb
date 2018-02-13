@@ -34,6 +34,22 @@ puts sql
     rows
   end
 
+  def self.find(id)
+    sql = "SELECT
+  #{Scrape.columns.map{|c|"s.`#{c}` as s_#{c}"}.join(",")}
+FROM scrapes s
+WHERE s.id = ?
+"
+puts sql
+    rows = DataMapper.select(sql, {
+      prefix: 's',
+      has_many: [
+      ]
+    }, id)
+    return nil if rows.count == 0
+    rows.first
+  end
+
   def self.scrape_to_fields(scrape)
     return {
       id:                         scrape[:id],
