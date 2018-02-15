@@ -9,11 +9,15 @@ module DBMigrations
         `auto_id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
         `id` VARCHAR(255) NOT NULL,
         `name` VARCHAR(255) NOT NULL,
+        `url` VARCHAR(1024),
+        `pattern` VARCHAR(255),
+        `mappings` TEXT,
         `created_at` DATETIME NOT NULL,
         UNIQUE KEY `id` (`id`),
         INDEX `id_index` (`id`),
         UNIQUE KEY `name` (`name`),
         INDEX `name_index` (`name`),
+        INDEX `url_index` (`url`),
         INDEX `created_at_index` (`created_at`)
       )"
       db.query(sql)

@@ -11,6 +11,11 @@ const initial_state = {
   },
   current: {
     scrape: null,
+    run: {
+      links: null,
+      link: null,
+      html: null
+    }
   }
 }
 

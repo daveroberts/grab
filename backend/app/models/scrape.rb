@@ -16,6 +16,9 @@ class Scrape
     [
       :id,
       :name,
+      :url,
+      :pattern,
+      :mappings,
       :created_at
     ]
   end
@@ -25,7 +28,6 @@ class Scrape
   #{Scrape.columns.map{|c|"s.`#{c}` as s_#{c}"}.join(",")}
 FROM scrapes s
 ORDER BY s.`name`"
-puts sql
     rows = DataMapper.select(sql, {
       prefix: 's',
       has_many: [
@@ -40,7 +42,6 @@ puts sql
 FROM scrapes s
 WHERE s.id = ?
 "
-puts sql
     rows = DataMapper.select(sql, {
       prefix: 's',
       has_many: [
@@ -52,9 +53,12 @@ puts sql
 
   def self.scrape_to_fields(scrape)
     return {
-      id:                         scrape[:id],
-      name:                       scrape[:name],
-      created_at:                 scrape[:created_at]?Time.new(scrape[:created_at]):nil
+      id:         scrape[:id],
+      name:       scrape[:name],
+      url:        scrape[:url],
+      pattern:    scrape[:pattern],
+      mappings:   scrape[:mappings].to_json,
+      created_at: scrape[:created_at]?Time.new(scrape[:created_at]):nil
     }
   end
 
