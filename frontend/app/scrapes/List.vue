@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Scrapes</h1>
+    <v-btn fab right absolute color="primary" href="/#/scrapes/new"><v-icon>add</v-icon></v-btn>
     <div v-if="!scrapes">
       Loading...
     </div>
