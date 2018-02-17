@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "babel-preset-env": "^1.6.1",
+    "cheerio": "^1.0.0-rc.2",
     "vue": "^2.5.9",
     "vue-codemirror": "^4.0.1",
     "vue-router": "^3.0.1",

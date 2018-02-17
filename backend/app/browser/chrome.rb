@@ -77,7 +77,10 @@ class Chrome
     File.delete(filepath)
     image_id = ImageItem.save(data, "picture")
     @trace.push({ summary: "Taking screenshot", level: :info, image_id: image_id, show_image: true, timestamp: Time.now })
-    return data
+    return {
+      image_id: image_id,
+      data: data
+    }
   end
 
   def html()

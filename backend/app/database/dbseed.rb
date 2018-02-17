@@ -11,7 +11,7 @@ class DBSeed
       id: '4a990719-1862-4fa2-b5f1-e26c8867faec',
       name: "Keenertech",
       url: "http://www.keenertech.com/",
-      pattern: "^http:\/\/www\.keenertech\.com\/\d+/\d+\/.+\/$",
+      pattern: '^https?:\/\/www\.keenertech\.com\/\d+\/\d+\/.+\/$',
       mappings: "[]",
     },
   ]

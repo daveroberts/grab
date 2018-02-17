@@ -44,7 +44,7 @@
                   <td></td>
                   <td>
                     <span class="title">
-                      <v-btn color="green darken-4 white--text" small @click.prevent="state.current.run.link = link; show_link_selection = false" fab>
+                      <v-btn color="green darken-4 white--text" small @click.prevent="state.current.run.link = link; show_link_selection = false; test_link()" fab>
                         <v-icon>keyboard_arrow_right</v-icon>
                       </v-btn>
                       {{link}}
@@ -72,9 +72,29 @@
             </div>
           </div> <!-- waiting for links && current_run.links -->
         </div> <!-- div show_link_selection -->
-        <div v-if="current_run.link">
-          <v-btn @click.prevent="show_link_selection = true">Test with a different link</v-btn>
-          Testing with {{current_run.link}}
+        <div style="margin: 1em 0" v-if="current_run.link">
+          <span class="title">
+            Testing with {{current_run.link}}
+            <v-btn small color="cancel white--text" @click.prevent="show_link_selection = true">Change link</v-btn>
+          </span>
+          <v-progress-linear v-show="waiting.for_link" :indeterminate="true"></v-progress-linear>
+          <div v-if="current_run.test_page">
+            <div style="margin: auto; width: 400px;">
+              <a target="_blank" :href="'/api/images/'+current_run.test_page.image_id">
+                <img class="thumbnail" :src="'/api/images/'+current_run.test_page.image_id+'/thumbnail/'" alt="retrieved image from website" />
+              </a>
+            </div>
+            <v-text-field label="Mapping" v-model="mapping"></v-text-field>
+            <div v-if="mapping">
+              <div v-if="matched_text">
+                <div>Matched Text</div>
+                <pre>{{matched_text}}</pre>
+              </div>
+              <div v-else>
+                <span class="cancel--text">Did not match any CSS selector!</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -83,6 +103,7 @@
 <script>
 import state from '../state/state.js'
 import * as senate from '../state'
+import cheerio from 'cheerio'
 const load_scrape = id => {
   fetch(`/api/scrapes/${id}`, {
     credentials: 'include'
@@ -132,6 +153,16 @@ export default {
     unmatching_links(){
       return state.current.run.links
     },
+    matched_text(){
+      if (!state.current.run.test_page){ return null }
+      const $ = cheerio.load(state.current.run.test_page.html)
+      var match = $(this.mapping).text()
+      if (match){
+        return match.trim()
+      } else {
+        return null
+      }
+    },
   },
   created: function(){
     if (!state.current.scrape || state.current.scrape.id != this.$route.params.id) {
@@ -142,8 +173,10 @@ export default {
   data: function(){
     return {
       state: state,
+      mapping: "",
       waiting: {
-        for_links: false
+        for_links: false,
+        for_link: false,
       },
       show_unmatching_links: false,
       show_link_selection: true,
@@ -178,6 +211,24 @@ export default {
         self.waiting.for_links = false
       })
     },
+    test_link(){
+      var self = this
+      self.waiting.for_link = true
+      state.current.run.test_page = null
+      fetch(`/api/run/link`, {
+        credentials: 'include',
+        method: 'POST',
+        body: JSON.stringify({url: state.current.run.link})
+      }).then(res => {
+        self.waiting.for_link = false
+        if (res.ok){ return res.json() }
+      }).then(test_page => {
+        state.current.run.test_page = test_page
+      }).catch(err => {
+        console.log(err)
+        self.waiting.for_link = false
+      })
+    },
     click_edit(){
       console.log("Clicked name")
       this.editing.name = true
@@ -196,4 +247,5 @@ export default {
 </script>
 <style lang="less" scoped>
 @import '../styles/variables.less';
+.thumbnail{ border: 5px solid grey; }
 </style>

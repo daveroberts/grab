@@ -14,7 +14,8 @@ const initial_state = {
     run: {
       links: null,
       link: null,
-      html: null
+      html: null,
+      test_page: null
     }
   }
 }
