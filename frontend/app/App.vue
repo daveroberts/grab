@@ -32,7 +32,9 @@
     </v-toolbar>
     <v-content>
       <v-container fluid>
-        <v-speed-dial>I am a speed dial</v-speed-dial>
+        <div v-for="alert in alerts">
+          <v-alert :type="alert.type" :value="alert.show">{{alert.msg}}</v-alert>
+        </div>
         <router-view></router-view>
       </v-container>
     </v-content>

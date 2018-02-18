@@ -13,7 +13,7 @@ class App < Sinatra::Application
   post "/scrapes/?" do
     scrape = JSON.parse(request.body.read, symbolize_names: true)
     begin
-      Scrape.save(scrape)
+      scrape = Scrape.save(scrape)
       return { scrape: scrape }.to_json
     rescue Exception => e
       return [500, e]

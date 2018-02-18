@@ -33,6 +33,9 @@ ORDER BY s.`name`"
       has_many: [
       ]
     })
+    rows.each do |row|
+      row[:mappings] = JSON.parse(row[:mappings])
+    end
     rows
   end
 
@@ -48,7 +51,9 @@ WHERE s.id = ?
       ]
     }, id)
     return nil if rows.count == 0
-    rows.first
+    scrape = rows.first
+    scrape[:mappings] = JSON.parse(scrape[:mappings])
+    return scrape
   end
 
   def self.scrape_to_fields(scrape)
@@ -60,6 +65,15 @@ WHERE s.id = ?
       mappings:   scrape[:mappings].to_json,
       created_at: scrape[:created_at]?Time.new(scrape[:created_at]):nil
     }
+  end
+
+  def self.save(scrape)
+    if scrape[:id].blank?
+      scrape = Scrape.insert(scrape)
+    else
+      scrape = Scrape.update(scrape)
+    end
+    return scrape
   end
 
   def self.update(scrape)

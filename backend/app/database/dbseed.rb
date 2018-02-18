@@ -12,7 +12,7 @@ class DBSeed
       name: "Keenertech",
       url: "http://www.keenertech.com/",
       pattern: '^https?:\/\/www\.keenertech\.com\/\d+\/\d+\/.+\/$',
-      mappings: "[]",
+      mappings: [],
     },
   ]
   @tags = [
