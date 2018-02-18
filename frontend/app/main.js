@@ -1,6 +1,3 @@
-//import './styles/reset.css'
-//import './styles/style.less'
-
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 Vue.use(Vuetify, {

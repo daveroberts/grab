@@ -2,9 +2,9 @@ const initial_state = {
   loading: false,
   alerts: [
     /*{id: 4, msg: 'success', show: true, type: 'success'},
-    {id: 4, msg: 'info', show: true, type: 'info'},
-    {id: 5, msg: 'warning', show: true, type: 'warning'},
-    {id: 6, msg: 'error', show: true, type: 'error'},*/
+    {id: 5, msg: 'info', show: true, type: 'info'},
+    {id: 6, msg: 'warning', show: true, type: 'warning'},
+    {id: 7, msg: 'error', show: true, type: 'error'},*/
   ],
   scrapes: {
     data: null,

@@ -86,8 +86,8 @@
                   <v-text-field label="CSS" v-model="mapping.css"></v-text-field>
                 </td>
                 <td>
-                  <div v-if="css_match(mapping.css, current_run.test_page.html) != null">
-                    <pre style="white-space: pre-wrap; max-height: 20em; overflow-y: auto;">{{css_match(mapping.css, current_run.test_page.html)}}</pre>
+                  <div v-if="css_to_text[mapping.css] != null">
+                    <pre class="title" style="white-space: pre-wrap; max-height: 15em; overflow-y: auto;">{{css_to_text[mapping.css]}}</pre>
                   </div>
                   <div v-else>
                     Selector not found on test page
@@ -102,15 +102,6 @@
               </tr>
             </tbody>
           </table>
-          <div v-if="mapping">
-            <div v-if="matched_text">
-              <div>Matched Text</div>
-              <pre style="white-space: pre-wrap">{{matched_text}}</pre>
-            </div>
-            <div v-else>
-              <span class="error--text">Did not match any CSS selector!</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -167,6 +158,24 @@ export default {
         catch(e){ return false }
       })
     },
+    css_to_text(){
+      const $ = cheerio.load(state.current.run.test_page.html)
+      return state.current.scrape.mappings.reduce( (map, m) => {
+        var match = null
+        try {
+          match = $(m.css).text()
+          if (match){
+            match = match.replace(/  +/g, ' ')
+            match = match.replace(/((\r\n|\r|\n)\s*)+/g, "\n")
+            match = match.trim()
+          }
+        } catch(e){
+          // Probably an invalid CSS selector.  This can happen if the user types in a dot
+        }
+        map[m.css] = match
+        return map
+      }, {})
+    },
     unmatching_links(){
       return state.current.run.links
     },
@@ -190,7 +199,6 @@ export default {
   data: function(){
     return {
       state: state,
-      mapping: "",
       waiting: {
         for_links: false,
         for_link: false,
@@ -203,20 +211,9 @@ export default {
     debug(){
       this.$router.replace(`/scrapes/${9999}`)
     },
-    css_match(css, html){
-      const $ = cheerio.load(state.current.run.test_page.html)
-      var match = $(css).text()
-      if (match){
-        match = match.replace(/  +/g, ' ')
-        match = match.replace(/((\r\n|\r|\n)\s*)+/g, "\n")
-        return match.trim()
-      } else {
-        return null
-      }
-    },
     remove_mapping(mapping){
-      var idx = scrape.mappings.find_index(mapping)
-      if (idx > -1){ scrape.mappings.splice(idx, 1) }
+      var idx = state.current.scrape.mappings.indexOf(mapping)
+      if (idx > -1){ state.current.scrape.mappings.splice(idx, 1) }
     },
     save(){
       var self = this
@@ -298,6 +295,8 @@ export default {
 <style lang="less" scoped>
 @import '../styles/variables.less';
 .thumbnail{ border: 5px solid grey; }
-.mappings_table{ border-spacing: 0.5em; border-collapse: separate; }
+.mappings_table{ border-spacing: 1em; border-collapse: separate; width: 100% }
 .mappings_table tr{ border-bottom: 2px solid #ccc; }
+.mappings_table th{ font-size: 16pt; }
+.mappings_table td{ padding: 1.5em; }
 </style>

@@ -32,8 +32,10 @@
     </v-toolbar>
     <v-content>
       <v-container fluid>
-        <div v-for="alert in alerts">
-          <v-alert :type="alert.type" :value="alert.show">{{alert.msg}}</v-alert>
+        <div style="position: absolute; width: 100%; box-sizing: border-box; z-index: 100;">
+          <div v-for="alert in alerts">
+            <v-alert :type="alert.type" :value="alert.show">{{alert.msg}}</v-alert>
+          </div>
         </div>
         <router-view></router-view>
       </v-container>

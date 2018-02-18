@@ -15,6 +15,7 @@ class Chrome
     begin
       @trace.push({ summary: "Navigating to #{url}", level: :info, timestamp: Time.now })
       driver.get(url)
+      sleep 1
       return true
     rescue # usually a bad URL
       @trace.push({ summary: "Could not navigate to #{url}", level: :warn, timestamp: Time.now })
