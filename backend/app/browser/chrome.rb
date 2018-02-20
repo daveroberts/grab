@@ -74,7 +74,7 @@ class Chrome
     filename = SecureRandom.uuid
     filepath = "/tmp/#{filename}.png"
     driver.save_screenshot(filepath)
-    data = File.read(filepath)
+    data = File.open(filepath, "rb").read
     File.delete(filepath)
     image_id = ImageItem.save(data, "picture")
     @trace.push({ summary: "Taking screenshot", level: :info, image_id: image_id, show_image: true, timestamp: Time.now })

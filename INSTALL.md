@@ -1,6 +1,6 @@
 Linode
 Ubuntu 17.10
-ssh root@172.104.12.110
+ssh grab@172.104.12.110
 
 apt update
 apt-get install -y apache2
@@ -35,6 +35,7 @@ systemctl restart apache2
 useradd -m grab
 passwd grab
 usermod -aG sudo grab
+chsh -s /bin/bash grab
 mkdir /apps
 chown grab /apps
 
