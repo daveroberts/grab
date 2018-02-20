@@ -30,6 +30,8 @@ Add to /etc/apache2/sites-enabled/default-ssl.conf
       ProxyPassReverse http://localhost:8090/
 </Location>
 
+a2dissite 000-default
+
 systemctl restart apache2
 
 useradd -m grab
@@ -77,6 +79,19 @@ get chromedriver, put into /usr/local/bin
 
 sudo apt install -y imagemagick
 
+apt-get install apache2-utils
+htpasswd -c /etc/apache2/.htpasswd grab
+
+<Location />
+	AuthType Basic
+	AuthName "Restricted Content"
+	AuthUserFile /etc/apache2/.htpasswd
+	Require valid-user
+	ProxyPass http://localhost:8090/
+	ProxyPassReverse http://localhost:8090/
+</Location>
+
+systemctl restart apache2
 
 
 
